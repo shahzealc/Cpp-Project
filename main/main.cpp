@@ -19,8 +19,4 @@ int main()
 	log.Warn("Carefull!");
 	log.Error("Stop!");
 	
-	Date d1{ 10,30,2024 };
-	String s{ "helloo" };
-	std::cout << s[10];
-	s.subStr(10,2);
 }

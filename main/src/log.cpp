@@ -12,7 +12,7 @@ void Log::SetLogLevel(Level level)
 
 void Log::Warn(const utility::String& message)
 {
-	logDate.refdate();
+	logDate.refdate(); 
 	if (m_LogLevel >= Level::LevelWarning) {
 		std::cout << "[Warning]: " << message << " | Date : " << logDate.getStringrep() << "\n";
 	}
