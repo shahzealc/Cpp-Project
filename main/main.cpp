@@ -18,5 +18,12 @@ int main()
 	log.Info("Fine!");
 	log.Warn("Carefull!");
 	log.Error("Stop!");
-	
+
+	Log logTemplate;
+	logTemplate.SetLogLevel(Log::Level::LevelInfo);
+
+	logTemplate.Info("Info Log",1,'i');
+	logTemplate.Warn("Warning Log",2.1,'w');
+	logTemplate.Error("Error Log", 1.1 + 1.9, String{ "e" });
+		
 }
