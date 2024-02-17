@@ -22,23 +22,23 @@ char& String::operator[](unsigned int index)
     
 }
 
-int String::length() {
+int String::length() noexcept {
     return stringSize;
 }
 
-void String::tolowercase() {
+void String::tolowercase() noexcept {
     for (unsigned int i = 0; i < stringSize; i++) {
         stringBuffer[i] = tolower(stringBuffer[i]);
     }
 }
 
-void String::touppercase() {
+void String::touppercase() noexcept {
     for (unsigned int i = 0; i < stringSize; i++) {
         stringBuffer[i] = toupper(stringBuffer[i]);
     }
 }
 
-bool String::equal(const String& str) {
+bool String::equal(const String& str) noexcept {
 
     if (stringSize != str.stringSize) {
 
@@ -54,7 +54,7 @@ bool String::equal(const String& str) {
 
 }
 
-String String::operator+(const String& str) {
+String String::operator+(const String& str) noexcept {
 
     int len = stringSize + str.stringSize;
 
@@ -100,7 +100,7 @@ void String::subStr(unsigned int start, unsigned int end) {
 }
 
 
-String String::intToString(int num) {
+String String::intToString(int num) noexcept {
 
     auto temp{ num };
     auto count{ 0 };

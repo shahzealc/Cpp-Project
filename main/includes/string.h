@@ -61,17 +61,17 @@ namespace utility {
 
 		char& operator[](unsigned int index);
 
-		int length();
+		int length() noexcept;
 
-		void tolowercase();
-		void touppercase();
-		String operator+(const String&);
+		void tolowercase() noexcept;
+		void touppercase() noexcept;
+		String operator+(const String&) noexcept;
 
-		bool equal(const String& str);
+		bool equal(const String& str) noexcept;
 
 		void subStr(unsigned int, unsigned int);
 
-		static String intToString(int);
+		static String intToString(int) noexcept;
 
 		/*bool lessThan(const String& str);
 		bool lessThanequall(const String& str);
