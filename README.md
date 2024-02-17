@@ -23,9 +23,9 @@ This C++ logging project provides a simple yet effective way to manage log messa
 
 2. **Logging Messages with Embedded Date**: Use the `Info()`, `Warn()`, and `Error()` methods of the `Log` class to log messages of different levels. The date will be automatically embedded with each log message. Example:
     ```cpp
-    log.Info("This is an information message.");
-    log.Warn("This is a warning message.");
-    log.Error("This is an error message.");
+    log.Info("This is an information message.",1,"Info");
+    log.Warn("This is a warning message.",2.1, 'W');
+    log.Error("This is an error message.",1+2.1,String{"Error"});
     ```
 
 ## Contributing
