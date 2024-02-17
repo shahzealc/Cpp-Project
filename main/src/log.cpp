@@ -14,7 +14,7 @@ void Log::Warn(const utility::String& message)
 {
 	logDate.refdate(); 
 	if (m_LogLevel >= Level::LevelWarning) {
-		std::cout << "[Warning]: " << message << " | Date : " << logDate.getStringrep() << "\n";
+		std::cout << "[ " << logDate.getStringrep() <<" ]" << "[Warn]: " << message << "\n";
 	}
 }
 
@@ -22,7 +22,7 @@ void Log::Error(const utility::String& message)
 {
 	logDate.refdate();
 	if (m_LogLevel >= Level::LevelError) {
-		std::cout << "[Error]: " << message << " | Date : " << logDate.getStringrep() << "\n";
+		std::cout << "[ " << logDate.getStringrep() << " ]" << "[Error]: " << message << "\n";
 	}
 }
 
@@ -30,7 +30,7 @@ void Log::Info(const utility::String& message)
 {
 	logDate.refdate();
 	if (m_LogLevel >= Level::LevelInfo) {
-		std::cout << "[Info]: " << message << " | Date : " << logDate.getStringrep() << "\n";
+		std::cout << "[ " << logDate.getStringrep() << " ]" << "[Info]: " << message << "\n";
 	}
 }
 
