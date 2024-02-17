@@ -32,13 +32,13 @@ namespace logs {
 
 
 		template < typename... parameters>
-		void Warn(const utility::String& message, parameters... Args);
+		void Warn( parameters &&... Args);
 
 		template < typename... parameters>
-		void Error(const utility::String& message, parameters... Args);
+		void Error( parameters &&... Args);
 
 		template < typename... parameters>
-		void Info(const utility::String& message, parameters... Args);
+		void Info(parameters &&... Args);
 
 
 		void print_args() { std::cout << "\n"; }
@@ -52,32 +52,32 @@ namespace logs {
 	};
 
 	template < typename... parameters>
-	void Log::Info(const utility::String& message, parameters... Args)
+	void Log::Info(parameters &&... Args)
 	{
 		logDate.refdate();
 		if (m_LogLevel >= Level::LevelInfo) {
-			std::cout << "[ " << logDate.getStringrep() << " ]" << "[Info]: " << message << " ";
+			std::cout << "[ " << logDate.getStringrep() << " ]" << "[Info]: ";
 			Log::print_args(Args...);
 
 		}
 	}
 
 	template < typename... parameters>
-	void Log::Warn(const utility::String& message, parameters... Args)
+	void Log::Warn(parameters &&... Args)
 	{
 		logDate.refdate();
 		if (m_LogLevel >= Level::LevelWarning) {
-			std::cout << "[ " << logDate.getStringrep() << " ]" << "[Warn]: " << message << " ";
+			std::cout << "[ " << logDate.getStringrep() << " ]" << "[Warn]: ";
 			Log::print_args(Args...);
 		}
 	}
 
 	template < typename... parameters>
-	void Log::Error(const utility::String& message, parameters... Args)
+	void Log::Error(parameters &&... Args)
 	{
 		logDate.refdate();
 		if (m_LogLevel >= Level::LevelError) {
-			std::cout << "[ " << logDate.getStringrep() << " ]" << "[Error]: " << message << " ";
+			std::cout << "[ " << logDate.getStringrep() << " ]" << "[Error]: ";
 			Log::print_args(Args...);
 		}
 	}
