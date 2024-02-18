@@ -24,12 +24,12 @@ namespace utility {
 			month = today.month;
 			year = today.year;
 
-			String back{ "/" };
+			String seprator{ "-" };
 			String d = String::intToString(day);
 			String m = String::intToString(month);
 			String y = String::intToString(year);
 
-			cache = (d + back + m + back + y);
+			cache = (d + seprator + m + seprator + y);
 
 		}
 
@@ -64,7 +64,7 @@ namespace utility {
 		}
 
 		void getDate() {
-			std::cout << day << "/" << month << "/" << year << "\n";
+			std::cout << day << "-" << month << "-" << year << "\n";
 		}
 
 		bool isLeap(int year) const;

@@ -95,11 +95,11 @@ void Date::refdate() const noexcept {
 }
 
 std::ostream& utility::operator<<(std::ostream& stream, Date& date) {
-	String back{ "/" };
+	String seprator{ "-" };
 	String d = String::intToString(date.day);
 	String m = String::intToString(date.month);
 	String y = String::intToString(date.year);
 
-	stream << (d + back + m + back + y);
+	stream << (d + seprator + m + seprator + y);
 	return stream;
 }
