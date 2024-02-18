@@ -3,6 +3,7 @@
 #define flag
 
 #include<iostream>
+#include<fstream>
 #include "string.h"
 #include "date.h"
 
@@ -16,20 +17,18 @@ namespace logs {
 			LevelError = 0, LevelWarning, LevelInfo
 		};
 
-	private:
-		Level m_LogLevel;
-		utility::Date logDate;
-
-	public:
 		Log()
-			:m_LogLevel{ Level::LevelInfo }, logDate{ 2,2,2024 } {	}
+			:m_LogLevel{ Level::LevelInfo },  fileName{ "defaultLog.txt" } , logDate{ 2,2,2024 }{}
 
-		Log(Level l1, utility::Date d1 = { 2,2,2024 })
-			: m_LogLevel{ l1 }, logDate{ d1 }
-		{	}
+		Log(Level l1, utility::String filePara ={ "defaultLog.txt" }, utility::Date d1 = { 2,2,2024 })
+			: m_LogLevel{ l1 }, logDate{ d1 }, fileName{filePara}
+		{
+		}
 
 		void SetLogLevel(Level);
 
+		void enableFileLog();
+		void disableFileLog();
 
 		template < typename... parameters>
 		void Warn( parameters &&... Args);
@@ -40,15 +39,28 @@ namespace logs {
 		template < typename... parameters>
 		void Info(parameters &&... Args);
 
-
-		void print_args() { std::cout << "\n"; }
+		void print_args() { 
+			std::cout << "\n";
+			writeLog << "\n";
+		}
 
 		template <typename t1, typename... args>
 		void print_args(t1 first, args... rest)
 		{
 			std::cout << first << " ";
+			writeLog << first << " ";
 			Log::print_args(rest...); 
 		}
+
+
+	private:
+		Level m_LogLevel;
+		utility::Date logDate;
+		std::ofstream writeLog;
+		utility::String fileName;
+		bool writeToFile = true;
+		utility::String log;
+
 	};
 
 	template < typename... parameters>
@@ -56,9 +68,20 @@ namespace logs {
 	{
 		logDate.refdate();
 		if (m_LogLevel >= Level::LevelInfo) {
-			std::cout << "[ " << logDate.getStringrep() << " ]" << "[Info]: ";
-			Log::print_args(Args...);
 
+			log = utility::String{ "[ " } + logDate.getStringrep() + utility::String{ " ]" } + utility::String{ "[Info]: " };
+
+			if (writeToFile) {
+				writeLog.open(fileName.getCharString(), std::ios::app);
+				std::cout << log;
+				writeLog << log;
+				Log::print_args(Args...);
+				writeLog.close();
+			}
+			else {
+				std::cout << log;
+				Log::print_args(Args...);
+			}
 		}
 	}
 
@@ -67,8 +90,20 @@ namespace logs {
 	{
 		logDate.refdate();
 		if (m_LogLevel >= Level::LevelWarning) {
-			std::cout << "[ " << logDate.getStringrep() << " ]" << "[Warn]: ";
-			Log::print_args(Args...);
+
+			log = utility::String{ "[ " } + logDate.getStringrep() + utility::String{ " ]" } + utility::String{ "[Warn]: " };
+
+			if (writeToFile) {
+				writeLog.open(fileName.getCharString(), std::ios::app);
+				std::cout << log;
+				writeLog << log;
+				Log::print_args(Args...);
+				writeLog.close();
+			}
+			else {
+				std::cout << log;
+				Log::print_args(Args...);
+			}
 		}
 	}
 
@@ -77,10 +112,23 @@ namespace logs {
 	{
 		logDate.refdate();
 		if (m_LogLevel >= Level::LevelError) {
-			std::cout << "[ " << logDate.getStringrep() << " ]" << "[Error]: ";
-			Log::print_args(Args...);
+
+			log = utility::String{ "[ " } + logDate.getStringrep() + utility::String{ " ]" } + utility::String{ "[Error]: " };
+
+			if (writeToFile) {
+				writeLog.open(fileName.getCharString(), std::ios::app);
+				std::cout << log;
+				writeLog << log;
+				Log::print_args(Args...);
+				writeLog.close();
+			}
+			else {
+				std::cout << log;
+				Log::print_args(Args...);
+			}
 		}
 	}
+
 
 }
 

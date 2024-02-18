@@ -10,6 +10,12 @@ void Log::SetLogLevel(Level level)
 	m_LogLevel = level;
 }
 
+void Log::enableFileLog() {
+	writeToFile = true;
+}
+void Log::disableFileLog() {
+	writeToFile = false;
+}
 
 //void Log::Warn(const utility::String& message)
 //{

@@ -78,6 +78,7 @@ namespace utility {
 		bool operator>(const String& str);
 		bool operator>=(const String& str);
 
+		char* getCharString();
 	};
 
 

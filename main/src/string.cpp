@@ -25,25 +25,19 @@ int String::length() noexcept {
 }
 
 void String::tolowercase() noexcept {
-    int ascii;
     for (unsigned int i = 0; i < stringSize; i++) {
         if (stringBuffer[i] >= 'A' && stringBuffer[i] <= 'Z')
         {
-            ascii = stringBuffer[i];
-            ascii = ascii + 32;
-            stringBuffer[i] = ascii;
+            stringBuffer[i] += 32;
         }
     }
 }
 
 void String::touppercase() noexcept {
-    int ascii;
     for (unsigned int i = 0; i < stringSize; i++) {
         if (stringBuffer[i] >= 'a' && stringBuffer[i] <= 'z')
         {
-            ascii = stringBuffer[i];
-            ascii = ascii - 32;
-            stringBuffer[i] = ascii;
+            stringBuffer[i] -= 32;
         }
     }
 }
@@ -109,7 +103,6 @@ void String::subStr(unsigned int start, unsigned int end) {
 
 }
 
-
 String String::intToString(int num) noexcept {
 
     auto temp{ num };
@@ -171,5 +164,9 @@ bool String::operator>=(const String& str) {
     if (stringSize >= str.stringSize)
         return true;
     return false;
+}
+
+char* utility::String::getCharString() {
+    return stringBuffer.get();
 }
 
