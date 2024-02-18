@@ -24,6 +24,6 @@ int main()
 
 	logTemplate.Info(String{ "Info Log" }, 1, 'i');
 	logTemplate.Warn(String{ "Warning Log" }, 2.1, 'w');
-	logTemplate.Error("Error Log", 1.1 + 1.9, String{ "e" });
-		
+	logTemplate.Error(1.1 + 1.9, "Error Log", String{ "e" });
+
 }

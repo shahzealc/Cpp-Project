@@ -67,16 +67,16 @@ namespace utility {
 		void touppercase() noexcept;
 		String operator+(const String&) noexcept;
 
-		bool equal(const String& str) noexcept;
+		bool operator==(const String& str) noexcept;
 
 		void subStr(unsigned int, unsigned int);
 
 		static String intToString(int) noexcept;
 
-		/*bool lessThan(const String& str);
-		bool lessThanequall(const String& str);
-		bool greaterThan(const String& str);
-		bool greaterThanequall(const String& str);*/
+		bool operator<(const String& str);
+		bool operator<=(const String& str);
+		bool operator>(const String& str);
+		bool operator>=(const String& str);
 
 	};
 

@@ -12,14 +12,12 @@ char& String::operator[](unsigned int index)
         if (index >= stringSize) {
             throw StringException("Error :: Invalid Index !!!\n");
         }
-        return stringBuffer[index];
+        
     }
     catch (StringException e) {
         e.what();
-        char a{};
-        return a;
     }
-    
+    return stringBuffer[index];
 }
 
 int String::length() noexcept {
@@ -27,18 +25,30 @@ int String::length() noexcept {
 }
 
 void String::tolowercase() noexcept {
+    int ascii;
     for (unsigned int i = 0; i < stringSize; i++) {
-        stringBuffer[i] = tolower(stringBuffer[i]);
+        if (stringBuffer[i] >= 'A' && stringBuffer[i] <= 'Z')
+        {
+            ascii = stringBuffer[i];
+            ascii = ascii + 32;
+            stringBuffer[i] = ascii;
+        }
     }
 }
 
 void String::touppercase() noexcept {
+    int ascii;
     for (unsigned int i = 0; i < stringSize; i++) {
-        stringBuffer[i] = toupper(stringBuffer[i]);
+        if (stringBuffer[i] >= 'a' && stringBuffer[i] <= 'z')
+        {
+            ascii = stringBuffer[i];
+            ascii = ascii - 32;
+            stringBuffer[i] = ascii;
+        }
     }
 }
 
-bool String::equal(const String& str) noexcept {
+bool String::operator==(const String& str) noexcept {
 
     if (stringSize != str.stringSize) {
 
@@ -142,25 +152,24 @@ std::ostream& utility::operator<<(std::ostream& stream, const String& string) {
 }
 
 
-
-//bool String::lessThan(const String& str) {
-//    if (stringSize < str.stringSize)
-//        return true;
-//    return false;
-//}
-//bool String::lessThanequall(const String& str) {
-//    if (stringSize <= str.stringSize)
-//        return true;
-//    return false;
-//}
-//bool String::greaterThan(const String& str) {
-//    if (stringSize > str.stringSize)
-//        return true;
-//    return false;
-//}
-//bool String::greaterThanequall(const String& str) {
-//    if (stringSize >= str.stringSize)
-//        return true;
-//    return false;
-//}
+bool String::operator<(const String& str) {
+    if (stringSize < str.stringSize)
+        return true;
+    return false;
+}
+bool String::operator<=(const String& str) {
+    if (stringSize <= str.stringSize)
+        return true;
+    return false;
+}
+bool String::operator>(const String& str) {
+    if (stringSize > str.stringSize)
+        return true;
+    return false;
+}
+bool String::operator>=(const String& str) {
+    if (stringSize >= str.stringSize)
+        return true;
+    return false;
+}
 
