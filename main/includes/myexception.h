@@ -31,4 +31,10 @@ class DateException :public MyException {
 public:
 	DateException(utility::String str) :MyException{ str } {	}
 };
+
+class FileException :public MyException {
+
+public:
+	FileException(utility::String str) :MyException{ str } {	}
+};
 #endif

@@ -17,6 +17,23 @@ void Log::disableFileLog() {
 	writeToFile = false;
 }
 
+//void Log::writeBuffer_File() {
+//
+//	writeLog.open(fileName.getCharString(), std::ios::app);
+//	if (!writeLog.is_open()) {
+//		std::cout << "Error: Failed to open file for writing\n";
+//	}
+//	else {
+//
+//		for (auto data : bufferedLogs) {
+//			writeLog << data;
+//		}
+//
+//		bufferedLogs.clear();
+//	}
+//	writeLog.close();
+//}
+
 //void Log::Warn(const utility::String& message)
 //{
 //	logDate.refdate(); 
