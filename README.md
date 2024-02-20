@@ -25,7 +25,7 @@ This C++ logging project provides a simple yet effective way to manage log messa
     ```cpp
     log.Info("This is an information message.",1,"Info");
     log.Warn("This is a warning message.",2.1, 'W');
-    log.Error("This is an error message.",1+2.1,String{"Error"});
+    log.Error("This is an error message.",1+2.1,"Error");
     ```
 
 ## Contributing
