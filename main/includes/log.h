@@ -1,13 +1,12 @@
 
-#ifndef flag
-#define flag
+#ifndef log_flag
+#define log_flag
 
 #include<iostream>
 #include<fstream>
-#include "string.h"
-#include "date.h"
 #include <vector>
 #include<string>
+
 
 namespace logs {
 
@@ -20,38 +19,36 @@ namespace logs {
 		};
 
 		Log()
-			:m_LogLevel{ Level::LevelInfo }, fileName{ "defaultLog.txt" }, logDate{ 2,2,2024 } {}
+			:m_LogLevel{ Level::LevelInfo }, fileName{ "defaultLog.txt" }  {}
 
-		Log(Level l1, utility::String filePara = { "defaultLog.txt" }, utility::Date d1 = { 2,2,2024 })
-			: m_LogLevel{ l1 }, logDate{ d1 }, fileName{ filePara }
+		Log(Level l1, std::string filePara = { "defaultLog.txt" })
+			: m_LogLevel{ l1 },  fileName{ filePara }
 		{
 		}
 
-		//~Log() { writeBuffer_File(); }
+		~Log() { writeBuffer_File(); }
 
-		void SetLogLevel(Level);
+		void SetLogLevel(Level) noexcept;
 
-		void enableFileLog();
-		void disableFileLog();
+		std::string getDateTime() noexcept;
+
+		void enableFileLog() noexcept;
+		void disableFileLog() noexcept;
 		void writeBuffer_File();
 
-		template <typename... parameters>
-		void generalLogger(parameters... Args);
+		std::string stringify(int value) noexcept;
+		std::string stringify(double value) noexcept;
+		std::string stringify(const std::string& value) noexcept;
+		std::string stringify(const char& value) noexcept;
 
-		template < typename... parameters>
-		void Warn(parameters &&... Args);
-
-		template < typename... parameters>
-		void Error(parameters &&... Args);
-
-		template < typename... parameters>
-		void Info(parameters &&... Args);
-
-		void print_args() {
+		void print_args() noexcept {
 
 			if (writeToFile) {
-
-				writeLog << "\n";
+				bufferedLogs.emplace_back("\n");
+				++bufferedLogCount;
+				if (bufferedLogCount == 5) {
+					writeBuffer_File();
+				}
 			}
 
 			std::cout << "\n";
@@ -59,86 +56,85 @@ namespace logs {
 		}
 
 		template <typename t1, typename... args>
-		void print_args(t1 first, args... rest)
+		void print_args(t1 first, args... rest) noexcept
 		{
 			if (writeToFile) {
-				writeLog << first<<" ";
+				bufferedLogs.emplace_back(stringify(first));
+				bufferedLogs.emplace_back(" ");
 			}
 			std::cout << first << " ";
 			Log::print_args(rest...);
 		}
 
+		template <typename... parameters>
+		void generalLogger(parameters... Args) noexcept;
+
+		template < typename... parameters>
+		void Warn(parameters &&... Args) noexcept;
+
+		template < typename... parameters>
+		void Error(parameters &&... Args) noexcept;
+
+		template < typename... parameters>
+		void Info(parameters &&... Args) noexcept;
+
 
 	private:
 		Level m_LogLevel;
-		utility::Date logDate;
 		std::ofstream writeLog;
-		utility::String fileName;
+		std::string fileName;
 		bool writeToFile = true;
-		utility::String log;
+		std::string log;
+		std::vector<std::string> bufferedLogs;
+		int bufferedLogCount{ 0 };
+
 
 	};
 
 	template < typename... parameters>
-	void Log::Info(parameters &&... Args)
+	void Log::Info(parameters &&... Args) noexcept
 	{
 		if (m_LogLevel >= Level::LevelInfo) {
-			logDate.refdate();
-			log = utility::String{ "[ " } + logDate.getStringrep() + utility::String{ " ]" } + utility::String{ "[Info]: " };
+
+			log = std::string{ "[ " } + std::string(getDateTime()) + std::string{ " ]" } + std::string{ "[Info]: " };
 
 			generalLogger(Args...);
 		}
 	}
 
 	template < typename... parameters>
-	void Log::Warn(parameters &&... Args)
+	void Log::Warn(parameters &&... Args) noexcept
 	{
 		if (m_LogLevel >= Level::LevelWarning) {
-			logDate.refdate();
-			log = utility::String{ "[ " } + logDate.getStringrep() + utility::String{ " ]" } + utility::String{ "[Warn]: " };
+
+			log = std::string{ "[ " } + std::string(getDateTime()) + std::string{ " ]" } + std::string{ "[Warn]: " };
 
 			generalLogger(Args...);
 		}
 	}
 
 	template < typename... parameters>
-	void Log::Error(parameters &&... Args)
+	void Log::Error(parameters &&... Args) noexcept
 	{
 		if (m_LogLevel >= Level::LevelError) {
-			logDate.refdate();
-			log = utility::String{ "[ " } + logDate.getStringrep() + utility::String{ " ]" } + utility::String{ "[Error]: " };
+
+			log = std::string{ "[ " } + std::string(getDateTime()) + std::string{ " ]" } + std::string{ "[Error]: " };
 
 			generalLogger(Args...);
 		}
 	}
 
 	template<typename ...parameters>
-	void Log::generalLogger(parameters ...Args)
+	void Log::generalLogger(parameters ...Args) noexcept
 	{
 		
 		if (writeToFile) {
-
-			writeLog.open(fileName.getCharString(), std::ios::app);
-			try {
-				if (!writeLog.is_open()) {
-					writeToFile = false;
-					throw FileException("Error: Failed to open file for writing\n");
-				}
-			}
-			catch (FileException e) {
-				e.what();
-			}
-
-			std::cout << log;
-			writeLog << log;
-			Log::print_args(Args...);
-		
-			writeLog.close();
+			bufferedLogs.emplace_back( log );		
 		}
-		else {
-			std::cout << log;
-			Log::print_args(Args...);
-		}
+
+		std::cout << log;
+		Log::print_args(Args...);
+
 	}
 
 }

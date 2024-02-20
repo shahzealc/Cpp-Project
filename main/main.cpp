@@ -1,14 +1,8 @@
 #include <iostream>
 #include "includes/log.h"
-#include "includes/date.h"
-#include "includes/string.h"
-#include "includes/complex.h"
-#include "includes/myexception.h"
 
 using logs::Log;
-using utility::Date;
-using utility::String;
-using utility::Complex;
+
 
 int main()
 {
@@ -22,8 +16,7 @@ int main()
 	Log logTemplate;
 	logTemplate.SetLogLevel(Log::Level::LevelInfo);
 
-	logTemplate.Info(String{ "Info Log" },1,'i');
-	logTemplate.Warn(String{ "Warning Log" }, 2.1, 'w');
-	logTemplate.Error(1.1 + 1.9, "Error Log", String{ "e" });
-
+	logTemplate.Info("Info Log",1,'i');
+	logTemplate.Warn( "Warning Log" , 2.1f, 'w');
+	logTemplate.Error(1.1 + 1.9, "Error Log",  "e" );
 }

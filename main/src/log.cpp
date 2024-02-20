@@ -1,38 +1,77 @@
 #include <iostream>
+#include<string>
+#include<chrono>
+#include <ctime>
 #include "../includes/log.h"
-#include "../includes/string.h"
+#include "../includes/myexception.h";
 
 using logs::Log;
 
 // Log Class implementation of all function definations
-void Log::SetLogLevel(Level level)
+void Log::SetLogLevel(Level level) noexcept
 {
 	m_LogLevel = level;
 }
 
-void Log::enableFileLog() {
+std::string logs::Log::getDateTime() noexcept
+{
+	auto now = std::chrono::system_clock::now();
+	std::time_t time = std::chrono::system_clock::to_time_t(now);
+
+	std::tm tmLocal;
+	localtime_s(&tmLocal, &time);
+
+	char buffer[20];
+	std::strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", &tmLocal);
+
+	return std::string(buffer);
+}
+
+void Log::enableFileLog() noexcept {
 	writeToFile = true;
 }
-void Log::disableFileLog() {
+void Log::disableFileLog() noexcept {
 	writeToFile = false;
 }
 
-//void Log::writeBuffer_File() {
-//
-//	writeLog.open(fileName.getCharString(), std::ios::app);
-//	if (!writeLog.is_open()) {
-//		std::cout << "Error: Failed to open file for writing\n";
-//	}
-//	else {
-//
-//		for (auto data : bufferedLogs) {
-//			writeLog << data;
-//		}
-//
-//		bufferedLogs.clear();
-//	}
-//	writeLog.close();
-//}
+void Log::writeBuffer_File() {
+
+	writeLog.open(fileName, std::ios::app);
+	try {
+		if (!writeLog.is_open()) {
+			writeToFile = false;
+			throw FileException("Error: Failed to open file for writing\n");
+		}
+	}
+	catch (FileException e) {
+		e.what();
+	}
+
+	for (auto data : bufferedLogs) {
+		writeLog << data;
+	}
+
+	bufferedLogs.clear();
+
+	writeLog.close();
+}
+
+std::string Log::stringify(int value) noexcept {
+	return std::to_string(value);
+}
+
+std::string Log::stringify(double value) noexcept {
+	return std::to_string(value);
+}
+
+std::string Log::stringify(const std::string& value) noexcept {
+	return value;
+}
+
+std::string Log::stringify(const char& value) noexcept {
+	return std::string(1, value);
+}
+
 
 //void Log::Warn(const utility::String& message)
 //{
