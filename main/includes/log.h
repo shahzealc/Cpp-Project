@@ -18,10 +18,10 @@ namespace logs {
 			LevelError = 0, LevelWarning, LevelInfo
 		};
 
-		Log()
+		explicit Log()
 			:m_LogLevel{ Level::LevelInfo }, fileName{ "defaultLog.txt" }  {}
 
-		Log(Level l1, std::string filePara = { "defaultLog.txt" })
+		explicit Log(Level l1, std::string filePara = { "defaultLog.txt" })
 			: m_LogLevel{ l1 },  fileName{ filePara }
 		{
 		}
@@ -44,7 +44,8 @@ namespace logs {
 		void print_args() noexcept {
 
 			if (writeToFile) {
-				bufferedLogs.emplace_back("\n");
+				log = log + std::string("\n");
+				bufferedLogs.emplace_back(log);
 				++bufferedLogCount;
 				if (bufferedLogCount == 5) {
 					writeBuffer_File();
@@ -59,8 +60,7 @@ namespace logs {
 		void print_args(t1 first, args... rest) noexcept
 		{
 			if (writeToFile) {
-				bufferedLogs.emplace_back(stringify(first));
-				bufferedLogs.emplace_back(" ");
+				log = log + (stringify(first)) + std::string(" ");
 			}
 			std::cout << first << " ";
 			Log::print_args(rest...);
@@ -96,7 +96,7 @@ namespace logs {
 	{
 		if (m_LogLevel >= Level::LevelInfo) {
 
-			log = std::string{ "[ " } + std::string(getDateTime()) + std::string{ " ]" } + std::string{ "[Info]: " };
+			log = std::string{ "[ " } + std::string(getDateTime()) + std::string{ " ]" } + std::string{ "[Info ]: " };
 
 			generalLogger(Args...);
 		}
@@ -107,7 +107,7 @@ namespace logs {
 	{
 		if (m_LogLevel >= Level::LevelWarning) {
 
-			log = std::string{ "[ " } + std::string(getDateTime()) + std::string{ " ]" } + std::string{ "[Warn]: " };
+			log = std::string{ "[ " } + std::string(getDateTime()) + std::string{ " ]" } + std::string{ "[Warn ]: " };
 
 			generalLogger(Args...);
 		}
@@ -128,10 +128,6 @@ namespace logs {
 	void Log::generalLogger(parameters ...Args) noexcept
 	{
 		
-		if (writeToFile) {
-			bufferedLogs.emplace_back( log );		
-		}
-
 		std::cout << log;
 		Log::print_args(Args...);
 

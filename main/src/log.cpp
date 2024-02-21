@@ -24,6 +24,9 @@ std::string logs::Log::getDateTime() noexcept
 	char buffer[20];
 	std::strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", &tmLocal);
 
+	/*std::string dateTime = std::to_string(tmLocal.tm_mday).append("-").append(std::to_string(tmLocal.tm_mon+1)).append("-").append(std::to_string(tmLocal.tm_year)).append(" ");
+	dateTime = dateTime.append(std::to_string(tmLocal.tm_hour)).append(":").append(std::to_string(tmLocal.tm_min)).append(":").append(std::to_string(tmLocal.tm_sec));
+	std::cout << dateTime;*/
 	return std::string(buffer);
 }
 
@@ -69,7 +72,7 @@ std::string Log::stringify(const std::string& value) noexcept {
 }
 
 std::string Log::stringify(const char& value) noexcept {
-	return std::string(1, value);
+	return std::to_string(value);
 }
 
 
