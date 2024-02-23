@@ -7,7 +7,7 @@ using utility::Date;
 // Date Class implementation of all function definations
 
 Date Date::getTodaydate() noexcept {
-	return Date{ 19,02,2024 };
+	return Date{ 19_day,02_month,2024_year };
 }
 
 bool Date::isLeap(int year) const {
